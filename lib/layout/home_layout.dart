@@ -38,7 +38,24 @@ class _HomeLayoutState extends State<HomeLayout> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          // try {
+          //   var name = await getName();
+          //   print(name);
+          //
+          //  // throw ('some error!!!!!!');  //create error بايدي
+          // } catch (error) {
+          //   print('error ${error.toString()}');
+          // }
+
+          getName().then((value) {
+            print(value);
+            print('hema');
+            // throw ('i made an error');
+          }).catchError((error) {
+            print('error is ${error.toString()}');
+          });
+        },
         child: Icon(
           Icons.add,
         ),
@@ -74,5 +91,10 @@ class _HomeLayoutState extends State<HomeLayout> {
       ),
       body: screens[currentIndex],
     );
+  }
+  //instance of 'Future<String>'
+
+  Future<String> getName() async {
+    return 'Ibrahim EL-Badwy';
   }
 }
