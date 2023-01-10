@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:todo_app/modules/archived_tasks/archived_tasks.dart';
 import 'package:todo_app/modules/done_tasks/done_tasks.dart';
 import 'package:todo_app/modules/new_tasks/new_tasks.dart';
@@ -26,6 +27,11 @@ class _HomeLayoutState extends State<HomeLayout> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    createDatabase();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -97,4 +103,34 @@ class _HomeLayoutState extends State<HomeLayout> {
   Future<String> getName() async {
     return 'Ibrahim EL-Badwy';
   }
+
+  void createDatabase() async {
+// open the database
+    Database database = await openDatabase(
+      'todo.db',
+      version: 1,
+      onCreate: (database, version) {
+        //id integer
+        //title String
+        //date String
+        //time String
+        //status String
+
+        print('database created');
+        database
+            .execute(
+                'CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT, date TEXT, time TEXT, status TEXT) ')
+            .then((value) {
+          print('table created');
+        }).catchError((error) {
+          print('Error when creating table ${error.toString()}');
+        });
+      },
+      onOpen: (database) {
+        print('database opened');
+      },
+    );
+  }
+
+  void inserToDatabase() {}
 }
